@@ -27,7 +27,7 @@ def find_duplicates_by_hash(*image_dirs: str) -> dict:
                 except Exception as e:
                     print(f"Error processing file {filepath}: {e}")
 
-    return image_hashes
+    return {hash: paths for hash, paths in image_hashes.items() if len(paths) > 1}
 
 
 def visualize_duplicates(duplicates: dict):
@@ -90,9 +90,7 @@ def save_duplicates_to_file(duplicates: dict, file_path: str):
 def main():
     image_dir1 = './5 Flower Types Classification Dataset-1/5 Flower Types Classification Dataset/Lilly'
     image_dir2 = './5 Flower Types Classification Dataset-1/5 Flower Types Classification Dataset/Lotus'
-    image_hashes = find_duplicates_by_hash(image_dir1, image_dir2)
-
-    duplicates = {hash: paths for hash, paths in image_hashes.items() if len(paths) > 1}
+    duplicates = find_duplicates_by_hash(image_dir1, image_dir2)
 
     if not duplicates:
         print("Duplicates not found")
